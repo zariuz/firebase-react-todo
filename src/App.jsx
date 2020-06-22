@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import './App.scss';
 
-import { get } from './api';
+import { getLists, get } from './api';
 import DBContext from './context/db';
 
 import AppDrawer from './components/AppDrawer';
@@ -11,15 +11,13 @@ import TodoList from './components/TodoList';
 
 export default function App() {
   const [lists, setLists] = useState([]);
-  const [todos, setTodos] = useState([]);
 
   useEffect(() => {
-    get('lists').then(setLists);
-    get('todos').then(setTodos);
+    getLists().then(setLists);
   }, []);
 
   return (
-    <DBContext.Provider value={{ lists, todos }}>
+    <DBContext.Provider value={{ lists, get }}>
       <div className="app">
         <AppDrawer lists={lists} />
         <AppContent>
