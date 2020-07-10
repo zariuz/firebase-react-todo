@@ -2,22 +2,22 @@ import React, { useEffect, useState } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import './App.scss';
 
-import { getLists, get } from './api';
+import * as api from './api';
 import DBContext from './context/db';
 
 import AppDrawer from './components/AppDrawer';
 import AppContent from './components/AppContent';
-import TodoList from './components/TodoList';
+import TodoList from './pages/TodoList';
 
 export default function App() {
   const [lists, setLists] = useState([]);
 
   useEffect(() => {
-    getLists().then(setLists);
+    api.getLists().then(setLists);
   }, []);
 
   return (
-    <DBContext.Provider value={{ lists, get }}>
+    <DBContext.Provider value={{ lists, ...api }}>
       <div className="app">
         <AppDrawer lists={lists} />
         <AppContent>

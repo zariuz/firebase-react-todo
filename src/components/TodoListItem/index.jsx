@@ -9,6 +9,8 @@ import {
   ListItemMeta,
 } from 'mdc-react';
 
+import './index.scss';
+
 export default function TodoListItem({ todo, onCompleteChange }) {
   return (
     <ListItem className="todo-list-item">
