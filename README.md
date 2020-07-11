@@ -1,4 +1,4 @@
-This project React Todo on React, Redux, and Firebase.
+This project Todo on React, Redux, and Firebase.
 
 ## Available Scripts
 
