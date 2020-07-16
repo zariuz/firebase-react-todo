@@ -1,6 +1,7 @@
 import firebase from 'firebase';
 
 firebase.initializeApp({
+  // apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   apiKey: 'AIzaSyDtrz6W6tBn7Or-J52qWydC242DFt4OpoA',
   authDomain: 'react-todo-f25e5.firebaseapp.com',
   databaseURL: 'https://react-todo-f25e5.firebaseio.com',
@@ -11,5 +12,6 @@ firebase.initializeApp({
 });
 
 const db = firebase.firestore();
+const auth = firebase.auth();
 
-export { db };
+export { db, auth };
