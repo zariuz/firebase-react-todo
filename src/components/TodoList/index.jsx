@@ -4,7 +4,7 @@ import { List, Typography } from 'mdc-react';
 import TodoListItem from '../TodoListItem';
 import './index.scss';
 
-export default function TodoList({ list, todos, onDelete, onUpdate }) {
+export default function TodoList({ list, todos, onDelete, onUpdate, onSelect }) {
   return (
     <div className="todo-list">
       <Typography className="todo-list__title" variant="headline4">
@@ -17,6 +17,7 @@ export default function TodoList({ list, todos, onDelete, onUpdate }) {
             todo={todo}
             onDelete={onDelete}
             onUpdate={onUpdate}
+            onSelect={onSelect}
           />
         ))}
       </List>

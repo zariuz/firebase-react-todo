@@ -1,55 +1,62 @@
-import React, { useEffect, useState } from 'react';
-import { Spinner } from 'mdc-react';
+import React, { useEffect, useState, useContext } from 'react';
+import { Spinner, Layout } from 'mdc-react';
+
+import DataContext from '../context/data';
+import { actions } from './../store';
 
 import './index.scss';
-import useApi from '../hooks/api';
 import TodoList from '../components/TodoList';
 import TodoForm from './../components/TodoForm/index';
+import TodoDetails from 'components/TodoDetails';
 
 export default function TodoListPage({ match }) {
-  const { data, actions } = useApi();
-  const [todos, setTodos] = useState([]);
+  const { state, dispatch } = useContext(DataContext);
+  const [selectedTodo, setSelectedTodo] = useState(null);
 
   useEffect(() => {
-    setTodos();
-
-    actions.getListTodos(match.params.listId).then(setTodos);
-  }, [actions, match.params.listId]);
+    if (match.params.listId) {
+      actions.getListTodos(dispatch, match.params.listId);
+    } else {
+      actions.getTodos(dispatch);
+    }
+  }, [dispatch, match.params.listId]);
 
   function handleSubmit(title) {
-    actions
-      .createTodo({
-        title,
-        listId: list.id,
-      })
-      .then((todo) => setTodos([...todos, todo]));
+    actions.createTodo(dispatch, {
+      title,
+      listId: list.id,
+    });
   }
 
   function handleDelete(todoId) {
-    actions.deleteTodo(todoId).then((todoId) => {
-      setTodos([...todos.filter((t) => t.id !== todoId)]);
-    });
+    actions.deleteTodo(dispatch, todoId);
   }
 
   function handleUpdate(todoId, data) {
-    actions.updateTodo(todoId, data).then((todoId) => {
-      setTodos([...todos.map((t) => (t.id !== todoId ? { ...t, ...data } : t))]);
-    });
+    actions.updateTodo(dispatch, todoId, data);
   }
 
-  const list = data.lists.find((list) => list.id === match.params.listId);
+  function handleSelect(todo) {
+    setSelectedTodo(todo);
+  }
 
-  if (!list || !todos) return <Spinner />;
+  const list = state.lists.find((list) => list.id === match.params.listId);
+
+  if (!list || !state.todos) return <Spinner />;
 
   return (
-    <div id="todo-list-page" className="page">
-      <TodoList
-        list={list}
-        todos={todos}
-        onDelete={handleDelete}
-        onUpdate={handleUpdate}
-      />
-      <TodoForm onSubmit={handleSubmit} />
-    </div>
+    <Layout row id="list-page" className="page">
+      <Layout>
+        <TodoList
+          list={list}
+          todos={state.todos}
+          onDelete={handleDelete}
+          onUpdate={handleUpdate}
+          onSelect={handleSelect}
+        />
+        <TodoForm onSubmit={handleSubmit} />
+      </Layout>
+      {selectedTodo && <TodoDetails todo={selectedTodo} />}
+    </Layout>
   );
 }
