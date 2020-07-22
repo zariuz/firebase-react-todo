@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 import {
   Drawer,
@@ -17,14 +17,24 @@ import {
   Typography,
 } from 'mdc-react';
 
-import DataContext from 'context/data';
+import useStore from 'hooks/store';
 
 export default function AppDrawer({ lists }) {
-  const { state } = useContext(DataContext);
+  const { state, actions } = useStore();
 
   return (
     <Drawer id="app-drawer">
-      <DrawerHeader title="React Todo" subtitle={state.user ? state.user.email : ''} />
+      <DrawerHeader title="React Todo">
+        {state.user && (
+          <Layout row justifyContent="between" alignItems="center">
+            <Typography variant="body2">{state.user.email}</Typography>
+            <IconButton onClick={() => actions.signOutUser()} title="Выйти">
+              <Icon>exit_to_app</Icon>
+            </IconButton>
+          </Layout>
+        )}
+      </DrawerHeader>
+
       <DrawerContent>
         <ListGroup>
           <List>
@@ -71,6 +81,8 @@ export default function AppDrawer({ lists }) {
                 </ListItemGraphic>
 
                 <ListItemText>{item.title}</ListItemText>
+
+                <ListItemMeta>{item.todos.length}</ListItemMeta>
               </ListItem>
             ))}
           </List>

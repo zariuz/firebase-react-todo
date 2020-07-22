@@ -1,24 +1,20 @@
 import { db, auth } from './firebase';
 
 /* Auth */
-
-// export function signOutUser() {
-//   return auth.signOut();
-// }
-
-// export function registerUser(email, password) {
-//   return auth.createUserWithEmailAndPassword(email, password);
-// }
-
-// export function initAuth(onAuth) {
-//   auth.onAuthStateChanged(onAuth);
-// }
-export function loginUser(email, password) {
+export function logInUser(email, password) {
   return auth.signInWithEmailAndPassword(email, password);
 }
 
-export function onAuth(handleAuth) {
-  auth.onAuthStateChanged(handleAuth);
+export function signOutUser() {
+  return auth.signOut();
+}
+
+export function registerUser(email, password) {
+  return auth.createUserWithEmailAndPassword(email, password);
+}
+
+export function initAuth(onAuth) {
+  auth.onAuthStateChanged(onAuth);
 }
 
 /* DB */
@@ -72,6 +68,9 @@ export function createTodo(data) {
     .add({
       ...data,
       completed: false,
+      notes: '',
+      dueDate: null,
+      steps: [],
     })
     .then((docRef) => docRef.get())
     .then((doc) => ({
