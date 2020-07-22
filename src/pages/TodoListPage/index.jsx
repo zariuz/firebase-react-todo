@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Spinner, Layout } from 'mdc-react';
 
-import DataContext from '../context/data';
-import { actions } from './../store';
+import DataContext from 'context/data';
+import { actions } from 'store';
 
 import './index.scss';
-import TodoList from '../components/TodoList';
-import TodoForm from './../components/TodoForm/index';
+import TodoList from 'components/TodoList';
+import TodoForm from 'components/TodoForm/index';
 import TodoDetails from 'components/TodoDetails';
 
 export default function TodoListPage({ match }) {

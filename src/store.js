@@ -1,7 +1,17 @@
-import * as api from './api';
+import * as api from 'api';
 
 export function reducer(state, action) {
   switch (action.type) {
+    case 'LOGIN_USER':
+      return {
+        ...state,
+        user: action.payload.user,
+      };
+    case 'LOGOUT_USER':
+      return {
+        ...state,
+        user: null,
+      };
     case 'GET_LISTS':
       return {
         ...state,
@@ -50,7 +60,11 @@ export function reducer(state, action) {
   }
 }
 
-export const initialState = { lists: [], todos: [] };
+export const initialState = { user: null, lists: [], todos: [] };
+
+export function loginUser(email, password) {
+  return api.loginUser(email, password);
+}
 
 export function getLists(dispatch) {
   return api.getLists().then((lists) =>
@@ -116,17 +130,22 @@ export function deleteTodo(dispatch, todoId) {
   );
 }
 
-// export function updateTodo(todoId, data) {
-//   return api.updateTodo(todoId, data).then((todoId) => {
-//     setTodos([...todos.map((t) => (t.id !== todoId ? { ...t, ...data } : t))]);
-//   });
-// }
-
-// export function deleteTodo(todoId) {
-//   return api.deleteTodo(todoId).then((todoId) => {
-//     setTodos([...todos.filter((t) => t.id !== todoId)]);
-//   });
-// }
+export function setAuth(dispatch) {
+  api.onAuth((user) => {
+    if (user) {
+      dispatch({
+        type: 'LOGIN_USER',
+        payload: {
+          user,
+        },
+      });
+    } else {
+      dispatch({
+        type: 'LOGOUT_USER',
+      });
+    }
+  });
+}
 
 export const actions = {
   getLists,
@@ -135,4 +154,6 @@ export const actions = {
   createTodo,
   deleteTodo,
   updateTodo,
+  loginUser,
+  setAuth,
 };

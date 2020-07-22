@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
   Drawer,
@@ -17,10 +17,14 @@ import {
   Typography,
 } from 'mdc-react';
 
+import DataContext from 'context/data';
+
 export default function AppDrawer({ lists }) {
+  const { state } = useContext(DataContext);
+
   return (
     <Drawer id="app-drawer">
-      <DrawerHeader title="React Todo"></DrawerHeader>
+      <DrawerHeader title="React Todo" subtitle={state.user ? state.user.email : ''} />
       <DrawerContent>
         <ListGroup>
           <List>
@@ -43,8 +47,7 @@ export default function AppDrawer({ lists }) {
                 component={NavLink}
                 to={item.to}
                 exact={item.exact}
-                activeClassName="mdc-list-item--activated"
-              >
+                activeClassName="mdc-list-item--activated">
                 <ListItemGraphic>
                   <Icon>{item.icon}</Icon>
                 </ListItemGraphic>
@@ -62,8 +65,7 @@ export default function AppDrawer({ lists }) {
                 key={item.id}
                 component={NavLink}
                 to={item.id}
-                activeClassName="mdc-list-item--activated"
-              >
+                activeClassName="mdc-list-item--activated">
                 <ListItemGraphic>
                   <Icon>list</Icon>
                 </ListItemGraphic>

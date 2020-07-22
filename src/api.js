@@ -2,6 +2,25 @@ import { db, auth } from './firebase';
 
 /* Auth */
 
+// export function signOutUser() {
+//   return auth.signOut();
+// }
+
+// export function registerUser(email, password) {
+//   return auth.createUserWithEmailAndPassword(email, password);
+// }
+
+// export function initAuth(onAuth) {
+//   auth.onAuthStateChanged(onAuth);
+// }
+export function loginUser(email, password) {
+  return auth.signInWithEmailAndPassword(email, password);
+}
+
+export function onAuth(handleAuth) {
+  auth.onAuthStateChanged(handleAuth);
+}
+
 /* DB */
 export function getLists() {
   return db

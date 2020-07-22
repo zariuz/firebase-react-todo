@@ -1,8 +1,7 @@
 import firebase from 'firebase';
 
 firebase.initializeApp({
-  // apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  apiKey: 'AIzaSyDtrz6W6tBn7Or-J52qWydC242DFt4OpoA',
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: 'react-todo-f25e5.firebaseapp.com',
   databaseURL: 'https://react-todo-f25e5.firebaseio.com',
   projectId: 'react-todo-f25e5',
