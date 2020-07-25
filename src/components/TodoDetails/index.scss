@@ -1,4 +1,9 @@
 .todo-details {
+  .mdc-text-field {
+    + .mdc-text-field {
+      margin-top: 0.5rem;
+    }
+  }
   .todo-steps {
     margin: 1rem 0;
 

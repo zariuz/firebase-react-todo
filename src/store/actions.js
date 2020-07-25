@@ -30,8 +30,8 @@ export function initAuth() {
 }
 
 /* DB */
-export function getLists() {
-  return api.getLists().then((lists) => ({
+export function getLists(userId) {
+  return api.getLists(userId).then((lists) => ({
     type: 'GET_LISTS',
     payload: {
       lists,
@@ -39,14 +39,32 @@ export function getLists() {
   }));
 }
 
-export function getTodos() {
-  return api.getTodos().then((todos) => ({
+export function getTodos(userId) {
+  return api.getTodos(userId).then((todos) => ({
     type: 'GET_TODOS',
     payload: {
       todos,
     },
   }));
 }
+
+// export function getImportantTodos(userId) {
+//   return api.getImportantTodos(userId).then((todos) => ({
+//     type: 'GET_TODOS',
+//     payload: {
+//       todos,
+//     },
+//   }));
+// }
+
+// export function getPlannedTodos(userId) {
+//   return api.getPlannedTodos(userId).then((todos) => ({
+//     type: 'GET_TODOS',
+//     payload: {
+//       todos,
+//     },
+//   }));
+// }
 
 export function getListTodos(listId) {
   return api.getListTodos(listId).then((todos) => ({

@@ -21,21 +21,15 @@ export default function ListPage({ match }) {
   const { state, actions } = useStore();
   const [selectedTodo, setSelectedTodo] = useState(null);
 
-  useEffect(() => {
-    setSelectedTodo(null);
-
-    if (match.params.listId) {
-      actions.getListTodos(match.params.listId);
-    } else {
-      actions.getTodos();
-    }
-  }, [actions, match.params.listId]);
+  // useEffect(() => {
+  //   setSelectedTodo(null);
+  // }, []);
 
   function handleSubmit(title) {
     actions.createTodo({
       title,
       userId: state.user.uid,
-      listId: list.id,
+      listId: list.id || '',
     });
   }
 
@@ -51,9 +45,26 @@ export default function ListPage({ match }) {
     setSelectedTodo(todo);
   }
 
-  const list = state.lists.find((list) => list.id === match.params.listId);
+  const list = state.lists.find((list) => list.id === match.params.listId) || {
+    title: 'Задачи',
+  };
+  const path = match.path;
 
-  if (!list || !state.todos) return <Spinner />;
+  const getTodosByFilter = {
+    '/': (todos) => todos,
+    '/important': (todos) => todos.filter((todo) => todo.important),
+    '/planned': (todos) => todos.filter((todo) => todo.dueDate),
+  };
+
+  const getTodosByList = (listId, todos) => {
+    return todos.filter((todo) => todo.listId === listId);
+  };
+
+  const todos = match.params.listId
+    ? getTodosByList(match.params.listId, state.todos)
+    : getTodosByFilter[path](state.todos);
+
+  if (!list || !todos) return <Spinner />;
 
   return (
     <Layout id="list-page" className="page">
@@ -78,7 +89,7 @@ export default function ListPage({ match }) {
         <Layout column className="mdc-side-sheet-app-content">
           <TodoList
             list={list}
-            todos={state.todos}
+            todos={todos}
             onSelect={handleSelect}
             onUpdate={handleUpdate}
             onDelete={handleDelete}

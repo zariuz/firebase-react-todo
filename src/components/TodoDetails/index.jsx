@@ -9,14 +9,24 @@ import {
   TextField,
   Typography,
 } from 'mdc-react';
+import moment from 'moment';
 
 import './index.scss';
 
 export default function TodoDetails({ todo }) {
+  // console.log(moment(todo.dueDate.seconds * 1000).format('YYYY-MM-DD'));
+
   return (
     <aside className="todo-details">
-      <Layout row>
+      <Layout column>
         <TextField label="Название" value={todo.title} onChange={() => {}} />
+        {todo.dueDate && (
+          <TextField
+            label="Дата выполнения"
+            value={todo.dueDate.seconds}
+            onChange={() => {}}
+          />
+        )}
       </Layout>
 
       <section className="todo-steps">
@@ -32,11 +42,15 @@ export default function TodoDetails({ todo }) {
                   <Checkbox checked={step.completed} />
                 </ListItemGraphic>
 
-                <ListItemText>{step.title}</ListItemText>
+                {console.log(step)}
+
+                <ListItemText>{step}</ListItemText>
               </ListItem>
             ))}
           </List>
         )}
+
+        <TextField label="Новый шаг" value={''} onChange={() => {}} fullWidth />
       </section>
     </aside>
   );

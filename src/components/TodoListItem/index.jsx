@@ -11,7 +11,7 @@ import {
 
 import './index.scss';
 
-export default function TodoListItem({ todo, onDelete, onUpdate, onSelect }) {
+export default function TodoListItem({ todo, onUpdate, onSelect, onDelete }) {
   function handleChange(completed) {
     onUpdate(todo.id, { completed });
   }
@@ -27,6 +27,10 @@ export default function TodoListItem({ todo, onDelete, onUpdate, onSelect }) {
       <ListItemMeta>
         <IconButton onClick={() => onDelete(todo.id)}>
           <Icon>delete</Icon>
+        </IconButton>
+
+        <IconButton onClick={() => onUpdate(todo.id, { important: !todo.important })}>
+          <Icon>{todo.important ? 'star' : 'star_bordered'}</Icon>
         </IconButton>
       </ListItemMeta>
     </ListItem>
