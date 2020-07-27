@@ -9,7 +9,7 @@ import {
   TextField,
   Typography,
 } from 'mdc-react';
-import moment from 'moment';
+// import moment from 'moment';
 
 import './index.scss';
 
