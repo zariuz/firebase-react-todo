@@ -41,8 +41,8 @@ export default function AuthPage() {
         <CardSection primary>
           <TextField
             type="email"
-            value={email}
             label="Электронная почта"
+            value={email}
             required
             fullWidth
             onChange={setEmail}

@@ -22,29 +22,41 @@ export function getLists(userId) {
   return db.collection('lists').where('userId', '==', userId).get().then(mapSnapshot);
 }
 
+export function createList(data) {
+  return db
+    .collection('lists')
+    .add({
+      icon: '',
+      sort: '',
+      todos: [],
+      ...data,
+    })
+    .then((docRef) => docRef.get())
+    .then(mapDoc);
+}
+
+export function updateList(listId, data) {
+  return db
+    .collection('lists')
+    .doc(listId)
+    .update(data)
+    .then(() => ({
+      id: listId,
+      ...data,
+    }));
+}
+
+export function deleteList(listId) {
+  return db
+    .collection('lists')
+    .doc(listId)
+    .delete()
+    .then(() => listId);
+}
+
 export function getTodos(userId = '') {
   return db.collection('todos').where('userId', '==', userId).get().then(mapSnapshot);
 }
-
-// export function getImportantTodos(userId = '') {
-//   return db
-//     .collection('todos')
-//     .where('userId', '==', userId)
-//     .where('listId', '==', '')
-//     .where('important', '==', true)
-//     .get()
-//     .then(mapSnapshot);
-// }
-
-// export function getPlannedTodos(userId = '') {
-//   return db
-//     .collection('todos')
-//     .where('userId', '==', userId)
-//     .where('listId', '==', '')
-//     .where('dueDate', '>=', Date.now() / 1000)
-//     .get()
-//     .then(mapSnapshot);
-// }
 
 export function getListTodos(listId) {
   return db.collection('todos').where('listId', '==', listId).get().then(mapSnapshot);

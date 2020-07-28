@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
+  Button,
   Drawer,
   DrawerHeader,
   DrawerContent,
@@ -15,12 +16,29 @@ import {
   ListDivider,
   ListGroup,
   Typography,
+  TextField,
 } from 'mdc-react';
 
 import useStore from 'hooks/store';
 
 export default function AppDrawer({ lists }) {
   const { state, actions } = useStore();
+  const [isListFormOpen, setListFormOpen] = useState(false);
+  const [listTitle, setListTitle] = useState('');
+
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    actions
+      .createList({
+        title: listTitle,
+        userId: state.user.uid,
+      })
+      .then(() => {
+        setListTitle('');
+        setListFormOpen(false);
+      });
+  }
 
   return (
     <Drawer id="app-drawer">
@@ -86,6 +104,22 @@ export default function AppDrawer({ lists }) {
               </ListItem>
             ))}
           </List>
+          <Layout>
+            {isListFormOpen ? (
+              <form onSubmit={handleSubmit}>
+                <TextField
+                  label="Новая задача"
+                  value={listTitle}
+                  onChange={setListTitle}
+                  fullWidth
+                />
+              </form>
+            ) : (
+              <Button icon={<Icon>add</Icon>} onClick={() => setListFormOpen(true)}>
+                Добавить список
+              </Button>
+            )}
+          </Layout>
         </ListGroup>
       </DrawerContent>
     </Drawer>
