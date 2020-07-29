@@ -74,7 +74,7 @@ export default function ListPage({ match }) {
       <PageHeader title={list.title} onSortChange={handleSortChange} sortBy={sortBy} />
 
       <Layout row>
-        <SideSheet
+        {/* <SideSheet
           open={selectedTodo}
           dismissible
           appContentSelector=".mdc-side-sheet-app-content">
@@ -87,7 +87,7 @@ export default function ListPage({ match }) {
           </Layout>
 
           {selectedTodo && <TodoDetails todo={selectedTodo} />}
-        </SideSheet>
+        </SideSheet> */}
 
         <Layout column className="mdc-side-sheet-app-content">
           <TodoList

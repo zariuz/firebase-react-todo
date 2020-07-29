@@ -58,17 +58,12 @@ export default function AppDrawer({ lists }) {
           <List>
             {[
               {
-                title: 'Задачи',
+                title: 'Все задачи',
                 icon: 'home',
                 to: '/',
                 exact: true,
               },
               { title: 'Важно', icon: 'star', to: '/important' },
-              {
-                title: 'Запланированные',
-                icon: 'event',
-                to: '/planned',
-              },
             ].map((item) => (
               <ListItem
                 key={item.icon}
@@ -100,7 +95,7 @@ export default function AppDrawer({ lists }) {
 
                 <ListItemText>{item.title}</ListItemText>
 
-                <ListItemMeta>{item.todos.length}</ListItemMeta>
+                {/* <ListItemMeta>{item.todos.length}</ListItemMeta> */}
               </ListItem>
             ))}
           </List>
